@@ -1,7 +1,7 @@
 import { reactive } from "vue"
 
-import AvatarBot from "/@/asset/bot.jpg"
-import AvatarSelf from "/@/asset/self.jpg"
+import AvatarBot from "/@/asset/bot.png"
+import AvatarSelf from "/@/asset/self.png"
 
 const name = reactive({
   bot: "H5_Jie_Bot",

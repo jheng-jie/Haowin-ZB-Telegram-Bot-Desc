@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="shadow-sm">
     <h1 class="pt-3 pb-4 text-center text-3xl font-bold text-yellow-500">Telegram Bot</h1>
     <div class="text-center">
       <div
@@ -33,9 +33,9 @@ export default defineComponent({
 
     // btn list
     const list: Array<LinkItem> = reactive([
-      { name: "苹果打包", path: "/ios-build", active: false },
+      { name: "蘋果打包", path: "/ios-build", active: false },
       { name: "安卓打包", path: "/android-build", active: false },
-      { name: "常见问题", path: "/qa", active: false }
+      { name: "常見問題", path: "/qa", active: false }
     ])
 
     /**
