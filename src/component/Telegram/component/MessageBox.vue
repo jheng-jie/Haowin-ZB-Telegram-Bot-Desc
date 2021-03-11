@@ -7,42 +7,42 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, onMounted, reactive, ref } from "vue"
+import { defineComponent, onBeforeMount, onMounted, reactive, ref, onUnmounted } from "vue"
 import { TimelineLite, Power1 } from "gsap/src/all.js"
 
 export default defineComponent({
   props: {
     animate: Boolean
   },
-  setup(props, { slots, emit }) {
+  setup({ animate }, { slots, emit }) {
     // slot container
     const list: Array<VNode> = reactive([])
+
     // slot parent
     const parent = ref(null)
+
     // gsap time line object
     const TimeLine: TimelineLite = new TimelineLite({
       pause: true,
       yoyo: true,
-      onComplete: () => {
-        emit("complete")
-      },
-      onStart: () => {
-        emit("start")
-      }
+      onComplete: () => emit("complete"),
+      onStart: () => emit("start")
     })
 
     /**
      * @desc get all child
      */
-    onBeforeMount(() => {
-      list.value = slots.default()
-    })
+    onBeforeMount(() => (list.value = slots.default()))
 
     /**
-     * @desc show animate
+     * @desc destroyed
      */
-    onMounted(() => {
-      if (!props.animate) return
+    onUnmounted(() => TimeLine.kill())
+
+    /**
+     * @desc animate init
+     */
+    const init = function () {
       // parent element
       const dom = parent.value
       // remove cache
@@ -95,7 +95,15 @@ export default defineComponent({
         const removeKeyboard = child.getAttribute("data-keyboard-remove") === "1"
         if (removeKeyboard) TimeLine.to(child, { opacity: 0, duration: 0.3, x: -30, display: "none", delay: 0.35 })
       }
-      TimeLine.play()
+
+      return TimeLine
+    }
+
+    /**
+     * @desc show animate
+     */
+    onMounted(() => {
+      animate && init().play()
     })
 
     return {
