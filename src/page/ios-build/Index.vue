@@ -1,10 +1,10 @@
 <template>
   <!-- play btn -->
-  <div class="h-16" v-show="!animate">
-    <img @click="animate = true" alt="play" class="mx-auto w-12 h-12 cursor-pointer mb-3 shadow-md rounded-full transition-transform transform hover:scale-110" :src="PlayButtonImage" />
+  <div v-show="!animate" class="py-4">
+    <Button shadow="bg-red-600" bg="bg-red-500" class="">Play</Button>
   </div>
   <!-- telegram message box -->
-  <MessageBox :animate="animate" @start="onStart" @complete="onComplete" :key="animate ? 'animate' : 'null'">
+  <MessageBox :animate="animate" @complete="onComplete" :key="animate ? 'animate' : 'null'">
     <MessageItem :self="true">
       <ScriptTag>/build</ScriptTag>
     </MessageItem>
@@ -71,7 +71,7 @@ import PlayButtonImage from "/@/asset/play.png"
 
 const CheckResultMessage = [
   "------------------------",
-  "总代 ID:  **",
+  "总代 ID:  lovezb",
   "APP 名称:  **",
   "Bundle ID:  **",
   "美颜 Key:  **",
@@ -91,11 +91,6 @@ export default defineComponent({
     const animate = ref(false)
 
     /**
-     * @desc animate on start
-     */
-    const onStart = function () {}
-
-    /**
      * @desc animate on complete
      */
     const onComplete = function () {
@@ -106,7 +101,6 @@ export default defineComponent({
       // state
       animate,
       // callback
-      onStart,
       onComplete,
       // store
       name,

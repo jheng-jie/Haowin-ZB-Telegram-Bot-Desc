@@ -1,16 +1,8 @@
 <template>
   <div class="shadow-sm">
     <h1 class="pt-3 pb-4 text-center text-3xl font-bold text-yellow-500">Telegram Bot</h1>
-    <div class="text-center">
-      <div
-        @click="() => onClick(btn)"
-        :class="{ active: btn.active }"
-        v-for="(btn, index) in list"
-        :key="index"
-        class="select-none cursor-pointer px-4 py-1 mx-2 btn inline-block bg-yellow-500 text-white"
-      >
-        {{ btn.name }}
-      </div>
+    <div class="text-center relative top-2">
+      <Button shadow="bg-yellow-600" bg="bg-yellow-500" @click="() => onClick(btn)" class="mx-1" :class="{ active: btn.active }" v-for="(btn, index) in list" :key="index">{{ btn.name }}</Button>
     </div>
   </div>
 </template>
@@ -70,31 +62,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-@Height: 6px;
-@PressHeight: 4px;
-@ShadowColor: #bb7704;
-
-.btn {
-  border-radius: 5px;
-  box-shadow: 0 @Height 0 @ShadowColor;
-  position: relative;
-  top: 0;
-  transition: top 0.3s, box-shadow 0.3s;
-
-  &:hover {
-    top: -2px;
-    box-shadow: 0 @Height + 2 0 @ShadowColor;
-  }
-
-  &.active {
-    top: @PressHeight;
-    box-shadow: 0 @Height - @PressHeight 0 @ShadowColor;
-  }
-
-  .cursor-range {
-    position: absolute;
-  }
-}
+@ShadowColor: #d97707;
 
 h1 {
   .text-shadow-loop(@i, @index) when (@index > 0) {

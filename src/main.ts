@@ -4,4 +4,11 @@ import App from "./App.vue"
 // router
 import router from "./router"
 
-createApp(App).use(router).mount("#app")
+// app
+const container = createApp(App)
+container.use(router).mount("#app")
+
+// component
+import Button from "/@/component/common/Button.vue"
+// @ts-ignore
+container.component("Button", Button)
