@@ -6,7 +6,10 @@
     </div>
     <div class="flex-1">
       <div>{{ filename }}</div>
-      <div><sapn class="text-gray-500">987B</sapn> - <span class="cursor-pointer text-blue-700 font-bold">Download</span></div>
+      <div>
+        <span class="text-gray-500">987B</span> -
+        <span class="cursor-pointer text-blue-700 font-bold">Download</span>
+      </div>
     </div>
   </div>
 </template>
