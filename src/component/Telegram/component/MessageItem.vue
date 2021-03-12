@@ -1,11 +1,11 @@
 <!--訊息框框-->
 <template>
   <div :class="{ 'flex-row': !self, 'flex-row-reverse': self }" class="flex mb-5 relative" :data-self="self ? 1 : 0">
-    <div class="w-11">
+    <div class="w-11 hidden sm:inline-block">
       <!-- thumb -->
       <img class="bg-cover w-11 h-11 rounded-full border-double border-4" :src="self ? avatar.self : avatar.bot" />
     </div>
-    <div class="flex-1 overflow-x-auto box-border" :class="{ 'text-left pl-3 pr-14': !self, 'text-right pr-3 pl-14': self }">
+    <div class="flex-1 overflow-x-auto box-border" :class="{ 'text-left pl-0 sm:pl-3 pr-3 sm:pr-14': !self, 'text-right pr-0 sm:pr-3 pl-3 sm:pl-14': self }">
       <!-- name -->
       <div class="font-bold text-sm">{{ self ? name.self : name.bot }}</div>
       <!-- message -->

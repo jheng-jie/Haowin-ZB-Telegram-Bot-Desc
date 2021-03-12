@@ -1,10 +1,8 @@
 <template>
   <!-- play btn -->
-  <div class="h-16" v-show="!animate">
-    <img @click="animate = true" alt="play" class="mx-auto w-12 h-12 cursor-pointer mb-3 shadow-md rounded-full transition-transform transform hover:scale-110" :src="PlayButtonImage" />
-  </div>
+  <PlayBar class="h-16" v-model:play="play" v-model:time-scale="timeScale" v-model:pause="pause" />
   <!-- telegram message box -->
-  <MessageBox :animate="animate" @complete="onComplete" :key="animate ? 'animate' : 'null'">
+  <MessageBox :time-scale="timeScale" :play="play" :pause="pause" @complete="onComplete" :class="play ? 'full-height' : 'auto-height'">
     <MessageItem :self="true">
       <ScriptTag>/build</ScriptTag>
     </MessageItem>
@@ -12,7 +10,7 @@
       <UserTag>{{ name.self }}</UserTag> 打包的商戶
       <template v-slot:keyboard>
         <div class="grid grid-cols-3 text-sm">
-          <div :class="{ 'ml-1': index !== 0 }" class="text-center cursor-pointer hover:bg-gray-300 overflow-ellipsis p-2 rounded bg-gray-200 mt-2" v-for="(item, index) in Object.keys(merchant)">
+          <div :class="{ 'ml-1': index !== 0 }" class="text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2 box-border" v-for="(item, index) in Object.keys(merchant)">
             {{ item }}
             <KeyboardTouch v-if="index === 1" />
           </div>
@@ -23,9 +21,9 @@
       <UserTag>{{ name.self }}</UserTag> 請選擇邀請碼類型
       <template v-slot:keyboard>
         <div class="grid grid-cols-3 text-sm">
-          <div class="text-center cursor-pointer hover:bg-gray-300 overflow-ellipsis p-2 rounded bg-gray-200 mt-2">固定邀請碼<KeyboardTouch /></div>
-          <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 overflow-ellipsis p-2 rounded bg-gray-200 mt-2">ShareInstall</div>
-          <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 overflow-ellipsis p-2 rounded bg-gray-200 mt-2">ShareTrace</div>
+          <div class="text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">固定邀請碼<KeyboardTouch /></div>
+          <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareInstall</div>
+          <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareTrace</div>
         </div>
       </template>
     </MessageItem>
@@ -44,11 +42,11 @@
       <UserTag>{{ name.self }}</UserTag> 若確認無誤請選擇平台
       <template v-slot:keyboard>
         <div class="grid grid-cols-2 text-sm">
-          <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all overflow-ellipsis flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Android<KeyboardTouch /></div>
-          <div class="cursor-pointer hover:bg-gray-300 transition-all mr-1 overflow-ellipsis flex-1 p-2 rounded bg-gray-200 mt-2 text-center">iOS</div>
-          <div class="cursor-pointer hover:bg-gray-300 transition-all overflow-ellipsis flex-1 p-2 rounded bg-gray-200 mt-2 text-center">AppStore</div>
-          <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all overflow-ellipsis flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Android+iOS</div>
-          <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all overflow-ellipsis flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Cancel</div>
+          <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Android<KeyboardTouch /></div>
+          <div class="cursor-pointer hover:bg-gray-300 transition-all mr-1 truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">iOS</div>
+          <div class="cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">AppStore</div>
+          <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Android+iOS</div>
+          <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Cancel</div>
         </div>
       </template>
     </MessageItem>
@@ -61,10 +59,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue"
+import { defineComponent, reactive, ref, toRefs } from "vue"
 import { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile } from "/@/component/Telegram/"
 import { name, merchant } from "/@/store/"
-import PlayButtonImage from "/@/asset/play.png"
 
 const CheckResultMessage = [
   "------------------------",
@@ -85,28 +82,40 @@ export default defineComponent({
   components: { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile },
 
   setup() {
-    const animate = ref(false)
+    // state
+    const animate = reactive({
+      play: false,
+      pause: false,
+      timeScale: 1
+    })
 
     /**
      * @desc animate on complete
      */
     const onComplete = function () {
-      setTimeout(() => (animate.value = false), 2000)
+      animate.play = false
     }
 
     return {
-      // state
-      animate,
+      // animate state
+      ...toRefs(animate),
       // callback
       onComplete,
       // store
       name,
       merchant,
       // message
-      CheckResultMessage,
-      // image
-      PlayButtonImage
+      CheckResultMessage
     }
   }
 })
 </script>
+
+<style lang="less" scoped>
+.full-height {
+  height: calc(100% - theme("height.16"));
+}
+.auto-height {
+  height: auto;
+}
+</style>

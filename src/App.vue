@@ -2,7 +2,7 @@
   <!-- header -->
   <Header class="bg-yellow-100 relative z-50" />
   <!-- content -->
-  <div class="flex-1 p-5 text-center overflow-y-auto box-border">
+  <div class="flex-1 p-2 sm:p-5 text-center overflow-y-auto box-border">
     <!-- router view -->
     <router-view v-slot="{ Component, route }">
       <keep-alive>

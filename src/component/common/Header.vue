@@ -62,7 +62,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-@ShadowColor: #d97707;
+@ShadowColor: theme('colors.yellow[600]');
 
 h1 {
   .text-shadow-loop(@i, @index) when (@index > 0) {

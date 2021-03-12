@@ -13,5 +13,6 @@
   height: 32px;
   z-index: 10;
   animation: anime 0.5s infinite;
+  transform: translateX(-24px);
 }
 </style>

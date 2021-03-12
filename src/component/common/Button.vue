@@ -1,8 +1,9 @@
 <template>
-  <div :class="shadow" class="select-none button select-none cursor-pointer rounded btn inline-block text-white relative px-4 py-1 shadow-md">
-    <span class="opacity-0"><slot /></span>
-    <!--Test-->
-    <div :class="bg" class="top absolute rounded px-4 left-0 right-0 flex justify-center items-center py-1">
+  <div :class="shadow" class="transition duration-300 text-sm select-none button select-none cursor-pointer rounded btn inline-block text-white relative px-4 shadow-md h-7">
+    <span class="opacity-0">
+      <slot />
+    </span>
+    <div :class="bg" class="transition duration-300 top absolute rounded px-4 left-0 right-0 flex justify-center items-center h-7">
       <slot />
     </div>
   </div>

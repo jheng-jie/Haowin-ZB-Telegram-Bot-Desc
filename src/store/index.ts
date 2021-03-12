@@ -1,19 +1,34 @@
 import { reactive } from "vue"
-
 import AvatarBot from "/@/asset/bot.png"
 import AvatarSelf from "/@/asset/self.png"
 
-const name = reactive({
+interface Name {
+  bot: string,
+  self: string
+}
+
+const name: Name = reactive<Name>({
   bot: "H5_Jie_Bot",
   self: "Haowin"
 })
 
-const avatar = reactive({
+interface Avatar {
+  bot: string
+  self: string
+}
+
+const avatar: Avatar = reactive<Avatar>({
   bot: AvatarBot,
   self: AvatarSelf
 })
 
-const merchant = reactive({
+interface Merchant {
+  readonly lovezb: any
+  readonly saomaozb: any
+  readonly skyzhibo: any
+}
+
+const merchant: Merchant = reactive<Merchant>({
   lovezb: {
     PLATFORM: "lovezb",
     APP_NAME: "**",
