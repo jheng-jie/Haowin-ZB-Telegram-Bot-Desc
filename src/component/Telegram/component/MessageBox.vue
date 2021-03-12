@@ -8,7 +8,8 @@
 
 <script lang="ts">
 import { defineComponent, onBeforeMount, onMounted, reactive, ref, onUnmounted, watchEffect } from "vue"
-import { TimelineLite, Power1 } from "gsap/src/all.js"
+import gsap from "gsap"
+import { TimelineLite, Power1, CSSPlugin } from "gsap/src/all.js"
 // @ts-ignore
 import throttle from "lodash/throttle"
 
@@ -19,6 +20,8 @@ export default defineComponent({
     timeScale: Number
   },
   setup(props, { slots, emit }) {
+    gsap.registerPlugin(CSSPlugin)
+
     // slot container
     const list: Array<VNode> = reactive([])
 
