@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from "vue"
+import { defineComponent, reactive, onDeactivated, toRefs } from "vue"
 import { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile } from "/@/component/Telegram/"
 import { name, merchant } from "/@/store/"
 
@@ -95,6 +95,10 @@ export default defineComponent({
     const onComplete = function () {
       animate.play = false
     }
+
+    onDeactivated(() => {
+      if (animate.play) animate.pause = true
+    })
 
     return {
       // animate state

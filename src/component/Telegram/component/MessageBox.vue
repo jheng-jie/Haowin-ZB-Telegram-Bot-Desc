@@ -9,6 +9,8 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, onMounted, reactive, ref, onUnmounted, watchEffect } from "vue"
 import { TimelineLite, Power1 } from "gsap/src/all.js"
+// @ts-ignore
+import throttle from "lodash/throttle"
 
 export default defineComponent({
   props: {
@@ -27,13 +29,20 @@ export default defineComponent({
     const TimeLine: TimelineLite = new TimelineLite({
       pause: true,
       yoyo: true,
-      onUpdate: () => {
-        const dom = parent.value
-        if (!dom) return
-        const { scrollHeight = 0, offsetHeight = 0, scrollTop = 0 } = dom
-        const less = scrollHeight - offsetHeight
-        if (less > 0 && scrollTop !== less) dom.scrollTop = less
-      },
+      onUpdate: throttle(
+        () => {
+          const dom = parent.value
+          if (!dom) return
+          const { scrollHeight = 0, offsetHeight = 0, scrollTop = 0 } = dom
+          const less = scrollHeight - offsetHeight
+          if (less > 0 && scrollTop !== less) dom.scrollTop = less
+        },
+        500,
+        {
+          leading: false,
+          trailing: true
+        }
+      ),
       onComplete: () => emit("complete"),
       onStart: () => emit("start")
     })
@@ -88,31 +97,14 @@ export default defineComponent({
 
       for (let index = 0; index < dom.children.length; ++index) {
         const child = dom.children[index]
+        const delay = parseInt(child.getAttribute("data-delay"))
         // popup
         const self = child.getAttribute("data-self") === "1"
-        TimeLine.fromTo(child, { display: "none", x: self ? 30 : -30, opacity: 0 }, { display: "", opacity: 1, duration: 0.3, x: 0, delay: 0.3 })
-        // // scroll
-        // TimeLine.to(dom, {
-        //   duration: 0.5,
-        //   delay: 0.35,
-        //   onStart: function () {
-        //     const enable = dom.scrollHeight - dom.offsetHeight > 0
-        //     if (!enable) {
-        //       TimeLine.seek(this.parent.time() + 0.5)
-        //       return
-        //     }
-        //     this.vars.scrollTop = dom.scrollHeight - dom.offsetHeight - dom.scrollTop
-        //     this.vars.startScrollTop = dom.scrollTop
-        //   },
-        //   onUpdate: function () {
-        //     const { startScrollTop, scrollTop } = this.vars
-        //     dom.scrollTop = startScrollTop + scrollTop * (1 / 0.5) * this.time()
-        //   }
-        // })
+        TimeLine.fromTo(child, { display: "none", x: self ? 30 : -30, opacity: 0 }, { display: "", opacity: 1, duration: 0.3, x: 0, delay: isNaN(delay) ? 0.5 : delay * 0.001 })
         // remove key
         const removeKey = child.getAttribute("data-remove-key")
         if (removeKey && Array.isArray(removeCallback[removeKey])) {
-          removeCallback[removeKey].map(dom => TimeLine.to(dom, { opacity: 0, duration: 0.3, x: -30, display: "none", delay: 0.35 }))
+          removeCallback[removeKey].map(dom => TimeLine.to(dom, { opacity: 0, duration: 0.3, x: -30, display: "none", delay: 0.5 }))
           remove.push.apply(remove, removeCallback[removeKey])
         }
         // remove res
@@ -126,7 +118,7 @@ export default defineComponent({
         if (enableTouch) {
           const touch = child.querySelector(".keyboard-touch")
           if (touch) {
-            TimeLine.fromTo(touch, { display: "none", opacity: 0 }, { display: "", opacity: 1, duration: 0.2, delay: 0.35 })
+            TimeLine.fromTo(touch, { display: "none", opacity: 0 }, { display: "", opacity: 1, duration: 0.2, delay: 0.5 })
             TimeLine.fromTo(touch, { scale: 1 }, { scale: 0.85, duration: 0.1, ease: Power1.easeOut })
             TimeLine.to(touch, { scale: 0.85, duration: 0.1, ease: Power1.easeOut })
             TimeLine.to(touch, { scale: 1, duration: 0.1, ease: Power1.easeOut })
@@ -135,11 +127,11 @@ export default defineComponent({
         // remove keyboard
         const removeKeyboard = child.getAttribute("data-keyboard-remove") === "1"
         if (removeKeyboard) {
-          TimeLine.to(child, { opacity: 0, duration: 0.3, x: -30, display: "none", delay: 0.35 })
+          TimeLine.to(child, { opacity: 0, duration: 0.3, x: -30, display: "none", delay: 0.5 })
           remove.push(child)
         }
       }
-      TimeLine.to(remove, { opacity: 1, duration: 0.3, display: "", delay: 2, x: 0 })
+      TimeLine.to(remove, { opacity: 1, duration: 0.3, display: "", delay: 5, x: 0 })
 
       if (props.play) {
         TimeLine.play()

@@ -25,9 +25,9 @@ export default defineComponent({
 
     // btn list
     const list: Array<LinkItem> = reactive([
-      { name: "蘋果打包", path: "/ios-build", active: false },
-      { name: "安卓打包", path: "/android-build", active: false },
-      { name: "常見問題", path: "/qa", active: false }
+      { name: "iOS", path: "/ios-build", active: false },
+      { name: "Android", path: "/android-build", active: false },
+      { name: "Params", path: "/param", active: false }
     ])
 
     /**
@@ -62,7 +62,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-@ShadowColor: theme('colors.yellow[600]');
+@ShadowColor: theme("colors.yellow[600]");
 
 h1 {
   .text-shadow-loop(@i, @index) when (@index > 0) {

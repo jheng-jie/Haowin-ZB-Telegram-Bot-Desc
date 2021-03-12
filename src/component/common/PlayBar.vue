@@ -1,11 +1,16 @@
 <template>
   <div class="flex justify-center items-center">
+    <!--stop button-->
     <Button :shadow="play ? 'bg-red-600' : 'bg-gray-600'" :bg="play ? 'bg-red-500' : 'bg-gray-500'" @click="play = false" class="mr-1">
       <i class="fas fa-stop" />
     </Button>
+
+    <!--play button-->
     <Button :shadow="'bg-red-600'" :bg="'bg-red-500'" class="mr-1" :class="{ active: play }" @click="onPlayClick">
       <i :class="{ 'fa-play': !play || pause, 'fa-pause': play && !pause }" class="fas" />
     </Button>
+
+    <!--fast forward button-->
     <Button :shadow="play ? 'bg-red-600' : 'bg-gray-600'" :bg="play ? 'bg-red-500' : 'bg-gray-500'" :class="{ active: play && timeScale !== 1 }" @click="onTimeScaleClick">
       <i class="fas fa-forward" v-if="timeScale !== 3" />
       <i class="fas fa-fast-forward" v-if="timeScale === 3" />
@@ -43,6 +48,27 @@ export default defineComponent({
     watch(
       () => inputValue.timeScale,
       value => emit("update:timeScale", value)
+    )
+
+    watch(
+      () => props.play,
+      value => {
+        inputValue.play = value
+      }
+    )
+
+    watch(
+      () => props.pause,
+      value => {
+        inputValue.pause = value
+      }
+    )
+
+    watch(
+      () => props.timeScale,
+      value => {
+        inputValue.timeScale = value
+      }
     )
 
     /**
