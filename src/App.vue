@@ -1,16 +1,17 @@
 <template>
   <!-- header -->
   <Header class="bg-yellow-100 relative z-50" />
-  <!-- content -->
-  <div class="flex-1 p-2 sm:p-5 text-center overflow-y-auto box-border">
-    <!-- router view -->
-    <router-view v-slot="{ Component, route }">
+  <!-- router view -->
+  <router-view v-slot="{ Component, route }">
+    <transition name="fade" mode="out-in">
       <keep-alive>
         <component :is="Component" :key="route.fullPath" v-if="route.meta.keepAlive" />
       </keep-alive>
+    </transition>
+    <transition name="fade" mode="out-in">
       <component :is="Component" v-if="!route.meta.keepAlive" />
-    </router-view>
-  </div>
+    </transition>
+  </router-view>
 </template>
 
 <script lang="ts">
@@ -35,5 +36,23 @@ body {
   width: 100%;
   height: 100%;
   font-family: "Fredoka One", cursive;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transform: translateY(20px);
+  transition: transform 0.35s ease, opacity 0.35s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.fade-leave-from,
+.fade-enter-to {
+  transform: translateY(0);
+  opacity: 1;
 }
 </style>

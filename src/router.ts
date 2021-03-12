@@ -1,16 +1,21 @@
 import { createWebHashHistory, createRouter } from "vue-router"
 
 // page
-import iOS_Build from "./page/ios-build/Index.vue"
-import Android_Build from "./page/android-build/Index.vue"
-import QA from "./page/param/Index.vue"
+import iOS_Build from "./page/iOSBuild.vue"
+import Android_Build from "./page/AndroidBuild.vue"
+import Param from "./page/Param.vue"
+import Home from "./page/Home.vue"
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
       path: "/",
-      redirect: () => "/ios-build"
+      name: "HOME",
+      meta: {
+        keepAlive: true
+      },
+      component: Home
     },
     {
       path: "/ios-build",
@@ -32,9 +37,9 @@ const router = createRouter({
       path: "/param",
       name: "QA",
       meta: {
-        // keepAlive: true
+        keepAlive: true
       },
-      component: QA
+      component: Param
     }
   ]
 })

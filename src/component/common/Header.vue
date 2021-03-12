@@ -1,14 +1,35 @@
 <template>
-  <div class="shadow-sm">
-    <h1 class="pt-3 pb-4 text-center text-3xl font-bold text-yellow-500">Telegram Bot</h1>
-    <div class="text-center relative top-2">
-      <Button shadow="bg-yellow-600" bg="bg-yellow-500" @click="() => onClick(btn)" class="mx-1" :class="{ active: btn.active }" v-for="(btn, index) in list" :key="index">{{ btn.name }}</Button>
+  <div>
+    <div class="shadow-sm text-center">
+      <h1 class="cursor-pointer pt-3 text-center text-3xl font-bold text-yellow-500" @click="$router.push('/')">Telegram Bot</h1>
+      <div class="relative top-2 flex-nowrap justify-center pt-4 overflow-x-auto sm:flex">
+        <Button shadow="bg-yellow-600" bg="bg-yellow-500" class="mx-1 inline-block sm:hidden" @click="menu = true"><i class="fas fa-bars" /></Button>
+        <Button
+          :style="$route.path === btn.path && btn.path !== '/' ? { display: 'inline-block' } : {}"
+          shadow="bg-yellow-600"
+          bg="bg-yellow-500"
+          @click="() => onClick(btn)"
+          class="mx-1 hidden sm:inline-block"
+          :class="{ active: btn.active }"
+          v-for="(btn, index) in list"
+          :key="index"
+        >
+          {{ btn.name }}
+        </Button>
+      </div>
     </div>
+    <transition name="fade">
+      <div v-show="menu" class="fixed w-full h-full z-50 top-0 bottom-0 bg-yellow-100 flex flex-col items-center justify-center">
+        <Button shadow="bg-yellow-600" bg="bg-yellow-500" @click="() => onClick(btn) & (menu = false)" class="my-4 block" :class="{ active: btn.active }" v-for="(btn, index) in list" :key="index">
+          {{ btn.name }}
+        </Button>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watchEffect } from "vue"
+import { defineComponent, reactive, watchEffect, ref } from "vue"
 import { useRouter, useRoute } from "vue-router"
 
 interface LinkItem {
@@ -19,12 +40,15 @@ interface LinkItem {
 
 export default defineComponent({
   setup() {
+    const menu = ref(false)
+
     // router
     const router = useRouter()
     const route = useRoute()
 
     // btn list
     const list: Array<LinkItem> = reactive([
+      { name: "Home", path: "/", active: false },
       { name: "iOS", path: "/ios-build", active: false },
       { name: "Android", path: "/android-build", active: false },
       { name: "Params", path: "/param", active: false }
@@ -34,7 +58,11 @@ export default defineComponent({
      * @desc on btn click
      */
     const onClick = function (target: LinkItem) {
-      if (target.active) return
+      if (target.active) {
+        target.active = false
+        router.push("/")
+        return
+      }
       // un active
       list.map(item => (item.active = false))
       // active
@@ -55,6 +83,7 @@ export default defineComponent({
 
     return {
       list,
+      menu,
       onClick
     }
   }

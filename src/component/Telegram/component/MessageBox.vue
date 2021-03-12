@@ -1,6 +1,6 @@
 <!--訊息的容器-->
 <template>
-  <div ref="parent" class="content bg-white rounded sm:rounded-2xl p-2 sm:p-4 mx-auto box-border shadow-sm" :class="{ 'h-full overflow-y-auto': play }">
+  <div ref="parent" class="max-w-2xl w-full bg-white rounded sm:rounded-2xl p-2 sm:p-4 mx-auto box-border shadow-sm" :class="{ 'h-full overflow-y-auto': play }">
     <!-- GSAP -->
     <component :is="item" v-for="(item, index) in list.value" :key="index" />
   </div>
@@ -156,14 +156,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped lang="less">
-.content {
-  max-width: 600px;
-  width: 100%;
-}
-.slider {
-  width: 600px;
-  appearance: none;
-}
-</style>
