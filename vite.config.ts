@@ -7,6 +7,7 @@ const { resolve } = require("path")
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/Haowin-ZB-Telegram-Bot-Desc/",
   plugins: [vue()],
   resolve: {
     alias: {
