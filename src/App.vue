@@ -35,7 +35,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  font-family: "Fredoka One", cursive;
+  font-family: "Fredoka One", "Heiti TC", "Microsoft Yahei", cursive;
 }
 
 .fade-enter-active,
