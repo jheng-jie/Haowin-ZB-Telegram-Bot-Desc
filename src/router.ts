@@ -1,4 +1,3 @@
-import { defineAsyncComponent } from "vue"
 import { createWebHashHistory, createRouter, RouteRecordRaw } from "vue-router"
 
 // page
@@ -20,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       keepAlive: true
     },
-    component: defineAsyncComponent(() => import("./page/iOSBuild.vue"))
+    component: () => import("./page/iOSBuild.vue")
   },
   {
     path: "/android-build",
@@ -28,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       keepAlive: true
     },
-    component: defineAsyncComponent(() => import("./page/AndroidBuild.vue"))
+    component: () => import("./page/AndroidBuild.vue")
   },
   {
     path: "/param",
@@ -36,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       keepAlive: true
     },
-    component: defineAsyncComponent(() => import("./page/Param.vue"))
+    component: () => import("./page/Param.vue")
   }
 ]
 

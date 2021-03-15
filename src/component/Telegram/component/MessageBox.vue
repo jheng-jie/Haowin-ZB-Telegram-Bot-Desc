@@ -9,6 +9,9 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, onMounted, reactive, ref, onUnmounted, watchEffect } from "vue"
 import gsap from "gsap"
+// @ts-ignore
+import { VNode } from "vue/types"
+// @ts-ignore
 import { TimelineLite, Power1, CSSPlugin } from "gsap/src/all.js"
 // @ts-ignore
 import throttle from "lodash/throttle"
@@ -121,7 +124,8 @@ export default defineComponent({
         if (enableTouch) {
           const touch = child.querySelector(".keyboard-touch")
           if (touch) {
-            TimeLine.fromTo(touch, { display: "none", opacity: 0 }, { display: "", opacity: 1, duration: 0.2, delay: 0.5 })
+            const delay = parseInt(touch.getAttribute("data-delay"))
+            TimeLine.fromTo(touch, { display: "none", opacity: 0 }, { display: "", opacity: 1, duration: 0.2, delay: isNaN(delay) ? 0.5 : delay * 0.001 })
             TimeLine.fromTo(touch, { scale: 1 }, { scale: 0.85, duration: 0.1, ease: Power1.easeOut })
             TimeLine.to(touch, { scale: 0.85, duration: 0.1, ease: Power1.easeOut })
             TimeLine.to(touch, { scale: 1, duration: 0.1, ease: Power1.easeOut })

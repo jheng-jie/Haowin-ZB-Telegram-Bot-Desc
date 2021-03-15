@@ -34,20 +34,20 @@
       <MessageItem data-remove-res="code">
         <UserTag>{{ name.self }}</UserTag> 請使用回覆此訊息的方式輸入邀請碼，逗號分隔
       </MessageItem>
-      <MessageItem :self="true" data-remove-key="code">
+      <MessageItem :self="true" data-remove-key="code" data-delay="1000">
         <MessageReply :name="name.bot"> {{ name.self }} 請使用回覆此訊息的方式輸入邀請碼，逗號分隔 </MessageReply>
         123456
       </MessageItem>
-      <MessageItem data-remove-res="finish">
+      <MessageItem data-remove-res="finish" data-delay="1500">
         <UserTag>{{ name.self }}</UserTag> 請確認資訊
         <pre>{{ CheckResultMessage }}</pre>
       </MessageItem>
-      <MessageItem data-remove-res="finish" data-keyboard-touch="1">
+      <MessageItem data-remove-res="finish" data-keyboard-touch="1" data-delay="1500">
         <UserTag>{{ name.self }}</UserTag> 若確認無誤請選擇平台
         <template v-slot:keyboard>
           <div class="grid grid-cols-2 text-sm">
             <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Android</div>
-            <div class="cursor-pointer hover:bg-gray-300 transition-all mr-1 truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">iOS <KeyboardTouch /></div>
+            <div class="cursor-pointer hover:bg-gray-300 transition-all mr-1 truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">iOS <KeyboardTouch data-delay="1500" /></div>
             <div class="cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">AppStore</div>
             <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Android+iOS</div>
             <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Cancel</div>
