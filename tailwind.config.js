@@ -1,4 +1,4 @@
-const colors = require('tailwindcss/colors')
+const colors = require("tailwindcss/colors")
 
 module.exports = {
   purge: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
@@ -6,10 +6,13 @@ module.exports = {
   theme: {
     extend: {
       color: colors.amber
+    },
+    screens: {
+      sm: "480px"
     }
   },
   variants: {
     extend: {}
   },
   plugins: []
-};
+}
