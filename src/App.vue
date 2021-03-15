@@ -1,7 +1,7 @@
 <template>
-  <!-- header -->
+  <!--header-->
   <Header class="bg-yellow-100 relative z-50" />
-  <!-- router view -->
+  <!--router view-->
   <router-view v-slot="{ Component, route }">
     <transition name="fade" mode="out-in">
       <keep-alive>
@@ -12,6 +12,8 @@
       <component :is="Component" v-if="!route.meta.keepAlive" />
     </transition>
   </router-view>
+  <!--progress bar-->
+  <vue-progress-bar />
 </template>
 
 <script lang="ts">
@@ -22,6 +24,18 @@ export default defineComponent({
   name: "App",
   components: {
     Header
+  },
+  mounted() {
+    const routerCache = {}
+    this.$router.beforeEach(to => {
+      if (!routerCache[to.path]) this.$Progress.start()
+    })
+    this.$router.afterEach(to => {
+      if (!routerCache[to.path]) {
+        routerCache[to.path] = 1
+        this.$Progress.finish()
+      }
+    })
   }
 })
 </script>
