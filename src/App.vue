@@ -26,7 +26,7 @@ export default defineComponent({
     Header
   },
   mounted() {
-    const routerCache = {}
+    const routerCache: any = {}
     this.$router.beforeEach(to => {
       if (!routerCache[to.path]) this.$Progress.start()
     })
@@ -50,18 +50,18 @@ body {
   width: 100%;
   height: 100%;
   /* google, mac, microsoft */
-  font-family: "Fredoka One", "Heiti TC", "Microsoft Yahei", cursive;
+  font-family: "Exo", "Heiti TC", "Microsoft Yahei", cursive;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transform: translateY(20px);
-  transition: transform 0.35s ease, opacity 0.35s;
+  transform: translateY(10px);
+  transition: transform 0.25s ease, opacity 0.25s;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  transform: translateY(20px);
+  transform: translateY(10px);
   opacity: 0;
 }
 

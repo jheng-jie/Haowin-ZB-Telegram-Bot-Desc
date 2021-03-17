@@ -2,19 +2,16 @@
 <template>
   <div ref="parent" class="max-w-2xl w-full bg-white rounded sm:rounded-2xl p-2 sm:p-4 mx-auto box-border shadow-sm" :class="{ 'h-full overflow-y-auto': play }">
     <!-- GSAP -->
-    <component :is="item" v-for="(item, index) in list.value" :key="index" />
+    <component :is="item" v-for="(item, index) in list" :key="index" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, onMounted, reactive, ref, onUnmounted, watchEffect } from "vue"
+import { defineComponent, onBeforeMount, onMounted, reactive, ref, onUnmounted, watchEffect, VNode } from "vue"
 import gsap from "gsap"
-// @ts-ignore
-import { VNode } from "vue/types"
+import throttle from "lodash-es/throttle"
 // @ts-ignore
 import { TimelineLite, Power1, CSSPlugin } from "gsap/src/all.js"
-// @ts-ignore
-import throttle from "lodash/throttle"
 
 export default defineComponent({
   props: {
@@ -26,10 +23,10 @@ export default defineComponent({
     gsap.registerPlugin(CSSPlugin)
 
     // slot container
-    const list: Array<VNode> = reactive([])
+    const list = reactive<Array<VNode>>([])
 
     // slot parent
-    const parent = ref(null)
+    const parent = ref<HTMLElement>()
 
     // gsap time line object
     const TimeLine: TimelineLite = new TimelineLite({
@@ -56,7 +53,7 @@ export default defineComponent({
     /**
      * @desc get all child
      */
-    onBeforeMount(() => (list.value = slots.default()))
+    onBeforeMount(() => slots.default && slots.default().map(child => list.push(child)))
 
     /**
      * @desc destroyed
@@ -95,22 +92,23 @@ export default defineComponent({
      */
     const init = function () {
       // parent element
-      const dom = parent.value
+      const dom: HTMLElement | undefined = parent.value
+      if (!dom) return
 
       // remove cache
-      const removeCallback: object = {}
-      const remove = []
+      const removeCallback: any = {}
+      const remove: Array<HTMLElement> = []
 
       for (let index = 0; index < dom.children.length; ++index) {
-        const child = dom.children[index]
-        const delay = parseInt(child.getAttribute("data-delay"))
+        const child: HTMLElement = dom.children[index] as HTMLElement
+        const delay = parseInt(child.getAttribute("data-delay") || "")
         // popup
         const self = child.getAttribute("data-self") === "1"
         TimeLine.fromTo(child, { display: "none", x: self ? 30 : -30, opacity: 0 }, { display: "", opacity: 1, duration: 0.3, x: 0, delay: isNaN(delay) ? 0.5 : delay * 0.001 })
         // remove key
         const removeKey = child.getAttribute("data-remove-key")
         if (removeKey && Array.isArray(removeCallback[removeKey])) {
-          removeCallback[removeKey].map(dom => TimeLine.to(dom, { opacity: 0, duration: 0.3, x: -30, display: "none", delay: 0.5 }))
+          removeCallback[removeKey].map((dom: HTMLElement) => TimeLine.to(dom, { opacity: 0, duration: 0.3, x: -30, display: "none", delay: 0.5 }))
           remove.push.apply(remove, removeCallback[removeKey])
         }
         // remove res
@@ -124,7 +122,7 @@ export default defineComponent({
         if (enableTouch) {
           const touch = child.querySelector(".keyboard-touch")
           if (touch) {
-            const delay = parseInt(touch.getAttribute("data-delay"))
+            const delay = parseInt(touch.getAttribute("data-delay") || "")
             TimeLine.fromTo(touch, { display: "none", opacity: 0 }, { display: "", opacity: 1, duration: 0.2, delay: isNaN(delay) ? 0.5 : delay * 0.001 })
             TimeLine.fromTo(touch, { scale: 1 }, { scale: 0.85, duration: 0.1, ease: Power1.easeOut })
             TimeLine.to(touch, { scale: 0.85, duration: 0.1, ease: Power1.easeOut })

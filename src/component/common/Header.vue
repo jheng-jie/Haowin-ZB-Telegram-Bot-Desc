@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, watchEffect, ref } from "vue"
-import { useRouter, useRoute } from "vue-router"
+import { useRouter, useRoute, Router, RouteLocationNormalizedLoaded } from "vue-router"
 
 interface LinkItem {
   name: string
@@ -40,11 +40,11 @@ interface LinkItem {
 
 export default defineComponent({
   setup() {
-    const menu = ref(false)
+    const menu = ref<boolean>(false)
 
     // router
-    const router = useRouter()
-    const route = useRoute()
+    const router: Router = useRouter()
+    const route: RouteLocationNormalizedLoaded = useRoute()
 
     // btn list
     const list: Array<LinkItem> = reactive([
@@ -57,8 +57,9 @@ export default defineComponent({
     /**
      * @desc on btn click
      */
-    const onClick = function (target: LinkItem) {
-      if (target.active) {
+    const onClick = function (target: LinkItem): void {
+      if (target.active && target.path === "/") return
+      else if (target.active) {
         target.active = false
         router.push("/")
         return
@@ -71,7 +72,7 @@ export default defineComponent({
       router.push(target.path)
     }
 
-    watchEffect(() => {
+    watchEffect((): void => {
       // un active
       list.map(item => (item.active = false))
       // find target

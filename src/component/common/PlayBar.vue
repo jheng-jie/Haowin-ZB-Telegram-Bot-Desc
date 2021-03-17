@@ -18,8 +18,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, watch, toRefs } from "vue"
+
+interface Props {
+  play: boolean
+  pause: boolean
+  timeScale: number
+}
 
 export default defineComponent({
   props: {
@@ -33,7 +39,7 @@ export default defineComponent({
       play,
       pause,
       timeScale
-    })
+    }) as Props
 
     watch(
       () => inputValue.play,
@@ -66,8 +72,8 @@ export default defineComponent({
 
     watch(
       () => props.timeScale,
-      value => {
-        inputValue.timeScale = value
+      (value: any) => {
+        inputValue.timeScale = value as number
       }
     )
 

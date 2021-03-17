@@ -17,11 +17,11 @@ createApp(App)
   .use(VueProgressBar, {
     color: "#ffb000",
     thickness: "3px",
-	  transition: {
-		  speed: "0.6s",
-		  opacity: "0.6s",
-		  termination: 300,
-	  },
+    transition: {
+      speed: "0.6s",
+      opacity: "0.6s",
+      termination: 300
+    }
   })
   .use(router)
   .mount("#app")

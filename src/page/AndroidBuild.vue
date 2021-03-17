@@ -21,10 +21,12 @@
       <MessageItem data-keyboard-remove="1" data-keyboard-touch="1">
         <UserTag>{{ name.self }}</UserTag> 請選擇邀請碼類型
         <template v-slot:keyboard>
-          <div class="grid grid-cols-3 text-sm">
-            <div class="text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">固定邀請碼<KeyboardTouch /></div>
-            <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareInstall</div>
-            <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareTrace</div>
+          <div class="grid grid-cols-6 text-sm">
+            <div class="col-span-2 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">固定邀請碼<KeyboardTouch /></div>
+            <div class="col-span-2 ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareInstall</div>
+            <div class="col-span-2 ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareTrace</div>
+            <div class="col-span-3 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">OpenInstall</div>
+            <div class="col-span-3 ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">TInstall</div>
           </div>
         </template>
       </MessageItem>
