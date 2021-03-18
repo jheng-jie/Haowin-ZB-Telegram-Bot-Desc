@@ -31,11 +31,19 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/param",
-    name: "QA",
+    name: "SET_PARAMS",
     meta: {
       keepAlive: true
     },
     component: () => import("./page/Param.vue")
+  },
+  {
+    path: "/json",
+    name: "JSON_TOOL",
+    meta: {
+      keepAlive: true
+    },
+    component: () => import("./page/JSONTool.vue")
   }
 ]
 
