@@ -13,3 +13,10 @@ export interface Merchant {
 	readonly saomaozb: any
 	readonly skyzhibo: any
 }
+
+export interface MenuItem {
+	readonly name: string
+	readonly path: string
+	readonly desc: string
+	active: boolean
+}

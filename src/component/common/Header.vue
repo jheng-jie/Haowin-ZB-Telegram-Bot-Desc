@@ -3,7 +3,7 @@
     <div class="shadow-sm text-center">
       <h1 class="cursor-pointer pt-3 text-center text-3xl font-bold text-yellow-500" @click="$router.push('/')">Telegram Bot</h1>
       <div class="relative top-2 flex-nowrap justify-center pt-4 overflow-x-auto sm:flex">
-        <Button shadow="bg-yellow-600" bg="bg-yellow-500" class="mx-1 inline-block sm:hidden" @click="menu = true"><i class="fas fa-bars" /></Button>
+        <Button shadow="bg-yellow-600" bg="bg-yellow-500" class="mx-1 inline-block sm:hidden" @click="showMenu = true"><i class="fas fa-bars" /></Button>
         <Button
           :style="$route.path === btn.path && btn.path !== '/' ? { display: 'inline-block' } : {}"
           shadow="bg-yellow-600"
@@ -11,7 +11,7 @@
           @click="() => onClick(btn)"
           class="mx-1 hidden sm:inline-block"
           :class="{ active: btn.active }"
-          v-for="(btn, index) in list"
+          v-for="(btn, index) in menu"
           :key="index"
         >
           {{ btn.name }}
@@ -19,8 +19,8 @@
       </div>
     </div>
     <transition name="fade">
-      <div v-show="menu" class="fixed w-full h-full z-50 top-0 bottom-0 bg-yellow-100 flex flex-col items-center justify-center">
-        <Button shadow="bg-yellow-600" bg="bg-yellow-500" @click="() => onClick(btn) & (menu = false)" class="my-4 block" :class="{ active: btn.active }" v-for="(btn, index) in list" :key="index">
+      <div v-show="showMenu" class="fixed w-full h-full z-50 top-0 bottom-0 bg-yellow-100 flex flex-col items-center justify-center">
+        <Button shadow="bg-yellow-600" bg="bg-yellow-500" @click="() => onClick(btn) & (showMenu = false)" class="my-4 block" :class="{ active: btn.active }" v-for="(btn, index) in menu" :key="index">
           {{ btn.name }}
         </Button>
       </div>
@@ -29,30 +29,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watchEffect, ref } from "vue"
+import { defineComponent, watchEffect, ref } from "vue"
 import { useRouter, useRoute, Router, RouteLocationNormalizedLoaded } from "vue-router"
-
-interface LinkItem {
-  name: string
-  path: string
-  active: boolean
-}
+import { menu } from "/@/store/index"
 
 export default defineComponent({
   setup() {
-    const menu = ref<boolean>(false)
+    const showMenu = ref<boolean>(false)
 
     // router
     const router: Router = useRouter()
     const route: RouteLocationNormalizedLoaded = useRoute()
-
-    // btn list
-    const list: Array<LinkItem> = reactive([
-      { name: "Home", path: "/", active: false },
-      { name: "IPA", path: "/ios-build", active: false },
-      { name: "APK", path: "/android-build", active: false },
-      { name: "參數", path: "/param", active: false }
-    ])
 
     /**
      * @desc on btn click
@@ -65,7 +52,7 @@ export default defineComponent({
         return
       }
       // un active
-      list.map(item => (item.active = false))
+      menu.map(item => (item.active = false))
       // active
       target.active = true
       // router
@@ -74,17 +61,17 @@ export default defineComponent({
 
     watchEffect((): void => {
       // un active
-      list.map(item => (item.active = false))
+      menu.map(item => (item.active = false))
       // find target
-      const find = list.find(target => target.path === route.path)
+      const find = menu.find(target => target.path === route.path)
       if (!find) return
       // active
       find.active = true
     })
 
     return {
-      list,
       menu,
+      showMenu,
       onClick
     }
   }
