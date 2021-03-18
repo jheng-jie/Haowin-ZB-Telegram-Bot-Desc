@@ -96,7 +96,7 @@ export default defineComponent({
     /**
      * @desc animate on complete
      */
-    const onComplete = function () {
+    const onComplete = function (): void {
       animate.play = false
     }
 

@@ -1,8 +1,8 @@
 <template>
   <div class="flex-1 p-2 sm:p-5 text-center overflow-y-auto box-border">
-    <!-- play btn -->
+    <!--play btn-->
     <PlayBar class="h-16" v-model:play="play" v-model:time-scale="timeScale" v-model:pause="pause" />
-    <!-- telegram message box -->
+    <!--telegram message box-->
     <MessageBox :time-scale="timeScale" :play="play" :pause="pause" @complete="onComplete" :class="play ? 'full-height' : 'auto-height'">
       <MessageItem :self="true">
         <ScriptTag>/set</ScriptTag>
@@ -84,7 +84,7 @@ export default defineComponent({
     /**
      * @desc animate on complete
      */
-    const onComplete = function () {
+    const onComplete = function (): void {
       animate.play = false
     }
 

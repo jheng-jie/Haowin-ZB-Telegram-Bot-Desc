@@ -80,7 +80,7 @@ export default defineComponent({
     /**
      * @desc fast forward
      */
-    const onTimeScaleClick = function () {
+    const onTimeScaleClick = function (): void {
       if (inputValue.timeScale === 1) {
         inputValue.timeScale = 2
       } else if (inputValue.timeScale === 2) {
@@ -93,7 +93,7 @@ export default defineComponent({
     /**
      * @desc on play click
      */
-    const onPlayClick = function () {
+    const onPlayClick = function (): void {
       if (!inputValue.play) {
         inputValue.play = true
         inputValue.pause = false

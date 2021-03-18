@@ -90,7 +90,7 @@ export default defineComponent({
     /**
      * @desc animate init
      */
-    const init = function () {
+    const init = function (): void {
       // parent element
       const dom: HTMLElement | undefined = parent.value
       if (!dom) return
