@@ -47,8 +47,8 @@
 
 <script lang="ts">
 import { defineComponent, onDeactivated, reactive, toRefs } from "vue"
-import { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile } from "/@/component/Telegram/"
-import { name, merchant } from "/@/store/"
+import { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile } from "/@/component/Telegram/index"
+import { name, merchant } from "/@/store/index"
 
 const InputJSON = [`{`, `  "APP_NAME": "這是 APP 名稱",`, `  "APPLICATION_ID": "這是 Bundle ID",`, `  "TX_KEY": "這是騰訊密鑰",`, `  "TX_LICENSE": "這是騰訊憑證地址"`, `}`].join("\n")
 const OutputJSON = [

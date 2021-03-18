@@ -64,8 +64,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, onDeactivated, toRefs } from "vue"
-import { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile } from "/@/component/Telegram/"
-import { name, merchant } from "/@/store/"
+import { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile } from "/@/component/Telegram/index"
+import { name, merchant } from "/@/store/index"
 
 const CheckResultMessage = [
   "------------------------",

@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import { avatar, name } from "/@/store/"
+import { avatar, name } from "/@/store/index"
 
 export default defineComponent({
   props: {

@@ -2,35 +2,19 @@ import { reactive } from "vue"
 import AvatarBot from "/@/asset/bot.png"
 import AvatarSelf from "/@/asset/self.png"
 
-export interface Name {
-  bot: string,
-  self: string
-}
+// interface
+import { Name, Avatar, Merchant } from "./interface"
 
 export const name: Name = reactive<Name>({
   bot: "H5_Jie_Bot",
   self: "Haowin"
 })
 
-export interface Avatar {
-  bot: string
-  self: string
-}
-
 export const avatar: Avatar = reactive<Avatar>({
   bot: AvatarBot,
   self: AvatarSelf
 })
 
-export interface Merchant {
-  readonly lovezb: any
-  readonly saomaozb: any
-  readonly skyzhibo: any
-}
-
-/**
- * @type Merchant
- */
 export const merchant: Merchant = reactive<Merchant>({
   lovezb: {
     PLATFORM: "lovezb",
@@ -69,5 +53,3 @@ export const merchant: Merchant = reactive<Merchant>({
     GATEWAY: ["http://**", "http://**", "http://**"]
   }
 })
-
-export default {}

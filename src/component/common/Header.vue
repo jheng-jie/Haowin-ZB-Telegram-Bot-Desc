@@ -49,9 +49,9 @@ export default defineComponent({
     // btn list
     const list: Array<LinkItem> = reactive([
       { name: "Home", path: "/", active: false },
-      { name: "iOS", path: "/ios-build", active: false },
-      { name: "Android", path: "/android-build", active: false },
-      { name: "Params", path: "/param", active: false }
+      { name: "IPA", path: "/ios-build", active: false },
+      { name: "APK", path: "/android-build", active: false },
+      { name: "參數", path: "/param", active: false }
     ])
 
     /**
