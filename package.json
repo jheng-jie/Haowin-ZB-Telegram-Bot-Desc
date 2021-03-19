@@ -10,6 +10,7 @@
     "@aacassandra/vue3-progressbar": "^1.0.3",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@types/lodash-es": "^4.17.4",
+    "element-plus": "^1.0.2-beta.35",
     "gsap": "^3.6.0",
     "lodash-es": "^4.17.21",
     "ncp": "^2.0.0",

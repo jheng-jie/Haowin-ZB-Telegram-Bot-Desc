@@ -31,6 +31,12 @@
 <script lang="ts">
 import { defineComponent, reactive, onMounted, onUnmounted, watch, ref } from "vue"
 import { params } from "/@/store/index"
+// import { ElNotification, ElMessageBox } from "element-plus/lib/el-message-box"
+import ElMessageBox from "element-plus/lib/el-message-box"
+import ElNotification from "element-plus/lib/el-notification"
+import "element-plus/lib/theme-chalk/el-notification.css"
+import "element-plus/lib/theme-chalk/el-message-box.css"
+import "element-plus/lib/theme-chalk/el-icon.css"
 
 export default defineComponent({
   setup() {
@@ -61,7 +67,11 @@ export default defineComponent({
       textarea.value.select()
       e.clipboardData.setData("text/plain", textarea.value.value)
       e.preventDefault()
-      alert("複製成功")
+      ElNotification({
+        title: "成功",
+        message: "这是一条成功的提示消息",
+        type: "success"
+      })
     }
 
     /**
@@ -96,7 +106,13 @@ export default defineComponent({
       onCopy,
       onClear,
       onClearClick: () => {
-        window.confirm("確認刪除？") && onClear()
+        ElMessageBox({
+          title: "確認刪除嗎？",
+          distinguishCancelAndClose: true,
+          showCancelButton: true,
+          confirmButtonText: "確定",
+          cancelButtonText: "取消"
+        }).then(onClear)
       }
     }
   }
