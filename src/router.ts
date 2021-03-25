@@ -9,7 +9,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "HOME",
     meta: {
-      keepAlive: true
+      keepAlive: true,
+      title: "Bot Build Desc"
     },
     component: Home
   },
@@ -17,7 +18,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/ios-build",
     name: "IOS_BUILD",
     meta: {
-      keepAlive: true
+      keepAlive: true,
+      title: "iOS Build"
     },
     component: () => import("./page/iOSBuild.vue")
   },
@@ -25,7 +27,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/android-build",
     name: "ANDROID_BUILD",
     meta: {
-      keepAlive: true
+      keepAlive: true,
+      title: "Android Build"
     },
     component: () => import("./page/AndroidBuild.vue")
   },
@@ -33,7 +36,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/param",
     name: "SET_PARAMS",
     meta: {
-      keepAlive: true
+      keepAlive: true,
+      title: "Params Desc"
     },
     component: () => import("./page/Param.vue")
   },
@@ -41,7 +45,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/json",
     name: "JSON_TOOL",
     meta: {
-      keepAlive: true
+      keepAlive: true,
+      title: "JSON Tool"
     },
     component: () => import("./page/JSONTool.vue")
   }

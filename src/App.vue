@@ -30,9 +30,13 @@ export default defineComponent({
     this.$router.beforeEach(to => {
       if (!routerCache[to.path]) this.$Progress.start()
     })
-    this.$router.afterEach(to => {
-      if (!routerCache[to.path]) {
-        routerCache[to.path] = 1
+    this.$router.afterEach(({ path, meta }) => {
+      if (meta.title) {
+        // @ts-ignore
+        document.title = meta.title
+      }
+      if (!routerCache[path]) {
+        routerCache[path] = 1
         this.$Progress.finish()
       }
     })
