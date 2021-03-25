@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 p-2 sm:p-5 text-center overflow-y-auto box-border">
+  <div class="flex-1 p-5 text-center overflow-y-auto box-border">
     <!--tool-->
     <div class="mb-3 bg-white rounded shadow-sm max-w-2xl mx-auto">
       <h1 class="py-3 font-bold text-2xl">生成 JSON 工具</h1>
@@ -69,7 +69,7 @@ export default defineComponent({
       e.preventDefault()
       ElNotification({
         title: "成功",
-        message: "这是一条成功的提示消息",
+        message: "複製成功",
         type: "success"
       })
     }
