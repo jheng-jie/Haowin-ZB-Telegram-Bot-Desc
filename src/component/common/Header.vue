@@ -3,24 +3,18 @@
     <div class="shadow-sm text-center">
       <h1 class="cursor-pointer pt-3 text-center text-3xl font-bold text-yellow-500" @click="$router.push('/')">Telegram Bot</h1>
       <div class="relative top-2 flex-nowrap justify-center pt-4 overflow-x-auto sm:flex">
-        <Button shadow="bg-yellow-600" bg="bg-yellow-500" class="mx-1 inline-block sm:hidden" @click="showMenu = true"><i class="fas fa-bars" /></Button>
-        <Button
-          :style="$route.path === btn.path && btn.path !== '/' ? { display: 'inline-block' } : {}"
-          shadow="bg-yellow-600"
-          bg="bg-yellow-500"
-          @click="() => onClick(btn)"
-          class="mx-1 hidden sm:inline-block"
-          :class="{ active: btn.active }"
-          v-for="(btn, index) in menu"
-          :key="index"
-        >
-          {{ btn.name }}
+        <Button shadow="bg-yellow-600" bg="bg-yellow-500" class="mx-1 inline-block" @click="showMenu = true"><i class="fas fa-bars" /></Button>
+        <!--play btn-->
+        <PlayBar v-show="$route.path !== '/'" class="mx-1 inline-block" v-model:play="play" v-model:time-scale="timeScale" v-model:pause="pause" />
+        <!--home-->
+        <Button shadow="bg-yellow-600" bg="bg-yellow-500" class="mx-1 inline-block" @click="$router.push('/')" :class="{ active: $route.path === '/' }">
+          <i class="fas fa-home mr-3" />Home
         </Button>
       </div>
     </div>
     <transition name="fade">
-      <div v-show="showMenu" class="fixed w-full h-full z-50 top-0 bottom-0 bg-yellow-100 flex flex-col items-center justify-center">
-        <Button shadow="bg-yellow-600" bg="bg-yellow-500" @click="() => onClick(btn) & (showMenu = false)" class="my-4 block" :class="{ active: btn.active }" v-for="(btn, index) in menu" :key="index">
+      <div v-show="showMenu" class="fixed w-full h-full z-50 top-0 bottom-0 bg-yellow-100 flex flex-col items-center justify-center overflow-x-auto pt-5">
+        <Button shadow="bg-yellow-600" bg="bg-yellow-500" @click="() => onClick(btn) & (showMenu = false)" class="my-3 block" :class="{ active: btn.active }" v-for="(btn, index) in menu" :key="index">
           {{ btn.name }}
         </Button>
       </div>
@@ -29,9 +23,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watchEffect, ref } from "vue"
+import { defineComponent, watchEffect, ref, toRefs } from "vue"
 import { useRouter, useRoute, Router, RouteLocationNormalizedLoaded } from "vue-router"
-import { menu } from "/@/store/index"
+import { menu, animate } from "/@/store"
 
 export default defineComponent({
   setup() {
@@ -71,6 +65,7 @@ export default defineComponent({
 
     return {
       menu,
+      ...toRefs(animate),
       showMenu,
       onClick
     }

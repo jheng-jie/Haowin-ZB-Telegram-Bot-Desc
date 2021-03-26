@@ -1,9 +1,7 @@
 <template>
   <div class="flex-1 p-2 sm:p-5 text-center overflow-y-auto box-border">
-    <!--play btn-->
-    <PlayBar class="h-16" v-model:play="play" v-model:time-scale="timeScale" v-model:pause="pause" />
     <!--telegram message box-->
-    <MessageBox :time-scale="timeScale" :play="play" :pause="pause" @complete="onComplete" :class="play ? 'full-height' : 'auto-height'">
+    <MessageBox :time-scale="timeScale" :play="play" :pause="pause" @complete="onComplete" :class="play ? 'h-full' : 'h-auto'">
       <MessageItem :self="true">
         <ScriptTag>/set</ScriptTag>
       </MessageItem>
@@ -14,6 +12,24 @@
             <div :class="{ 'ml-1': index !== 0 }" class="text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2" v-for="(item, index) in Object.keys(merchant)">
               {{ item }}
               <KeyboardTouch v-if="index === 2" data-delay="1000" />
+            </div>
+          </div>
+        </template>
+      </MessageItem>
+      <MessageItem data-keyboard-remove="1" data-keyboard-touch="1">
+        <UserTag>{{ name.self }}</UserTag> 請選擇要修改的參數，匹量設置請選擇進階設定
+        <template v-slot:keyboard>
+          <div class="grid grid-cols-6 text-sm">
+            <div class="col-span-3 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">APP 名称</div>
+            <div class="ml-1 col-span-3 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">Bundle ID</div>
+            <div class="col-span-3 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">腾讯云 Key</div>
+            <div class="ml-1 col-span-3 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">腾讯云 LICENSE</div>
+            <div class="col-span-2 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">鋻权 Key</div>
+            <div class="ml-1 col-span-2 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">极光 Key</div>
+            <div class="ml-1 col-span-2 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">友盟 Key</div>
+            <div class="col-span-6 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">
+              進階：匹量修改 JSON 格式
+              <KeyboardTouch data-delay="1000" />
             </div>
           </div>
         </template>
@@ -38,8 +54,7 @@
         </template>
       </MessageItem>
       <MessageItem data-remove-key="finish">
-        🟢 商戶 skyzhibo 資訊修改成功
-        <MessageFile :filename="'*******.txt'" />
+        <UserTag>{{ name.self }}</UserTag> 🟢 <ScriptTag>set_skyzhibo_20210325_143744.txt</ScriptTag> 商戶 skyzhibo 資訊修改成功
       </MessageItem>
     </MessageBox>
   </div>
@@ -48,10 +63,10 @@
 <script lang="ts">
 import { defineComponent, onDeactivated, reactive, toRefs } from "vue"
 import { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile } from "/@/component/Telegram/index"
-import { name, merchant } from "/@/store/index"
+import { name, merchant, animate } from "/@/store"
 
-const InputJSON = [`{`, `  "APP_NAME": "這是 APP 名稱",`, `  "APPLICATION_ID": "這是 Bundle ID",`, `  "TX_KEY": "這是騰訊密鑰",`, `  "TX_LICENSE": "這是騰訊憑證地址"`, `}`].join("\n")
-const OutputJSON = [
+const InputJSON: string = [`{`, `  "APP_NAME": "這是 APP 名稱",`, `  "APPLICATION_ID": "這是 Bundle ID",`, `  "TX_KEY": "這是騰訊密鑰",`, `  "TX_LICENSE": "這是騰訊憑證地址"`, `}`].join("\n")
+const OutputJSON: string = [
   `{`,
   `  "PLATFORM": "skyzhibo",`,
   `  "APP_NAME": "這是 APP 名稱",`,
@@ -74,13 +89,6 @@ export default defineComponent({
   components: { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile },
 
   setup() {
-    // state
-    const animate = reactive({
-      play: false,
-      pause: false,
-      timeScale: 1
-    })
-
     /**
      * @desc animate on complete
      */
@@ -88,7 +96,7 @@ export default defineComponent({
       animate.play = false
     }
 
-    onDeactivated(() => {
+    onDeactivated(function (): void {
       if (animate.play) animate.pause = true
     })
 
@@ -107,12 +115,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="less" scoped>
-.full-height {
-  height: calc(100% - theme("height.16"));
-}
-.auto-height {
-  height: auto;
-}
-</style>

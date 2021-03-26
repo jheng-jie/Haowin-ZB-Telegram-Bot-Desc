@@ -3,7 +3,7 @@ import AvatarBot from "/@/asset/bot.png"
 import AvatarSelf from "/@/asset/self.png"
 
 // interface
-import { Name, Avatar, Merchant, MenuItem } from "./interface"
+import { Name, Avatar, Merchant, MenuItem, PlayStatus } from "./interface"
 export * from "./interface"
 
 // 按鈕列表
@@ -13,31 +13,43 @@ export const menu = reactive<Array<MenuItem>>([
     path: "/",
     active: false,
     desc: "首頁"
-  } as MenuItem,
+  },
   {
     name: "iOS",
-    path: "/ios-build",
+    path: "/build-ios",
     active: false,
     desc: "蘋果打包範例"
-  } as MenuItem,
+  },
   {
     name: "Android",
-    path: "/android-build",
+    path: "/build-android",
     active: false,
     desc: "安卓打包範例"
-  } as MenuItem,
+  },
   {
     name: "Set",
-    path: "/param",
+    path: "/set",
     active: false,
     desc: "參數修改範例"
-  } as MenuItem,
+  },
+  {
+    name: "Queue",
+    path: "/queue",
+    active: false,
+    desc: "任務列表查看"
+  },
+  {
+    name: "List",
+    path: "/ls",
+    active: false,
+    desc: "查看資料夾"
+  },
   {
     name: "JSON",
     path: "/json",
     active: false,
     desc: "JSON 轉換工具"
-  } as MenuItem,
+  },
 ])
 
 // 聊天對象名稱
@@ -62,7 +74,14 @@ export const params: any = reactive({
   TX_LICENSE: "腾讯云 LICENSE URL",
   SCDN_KEY: "鉴权 Key",
   JPUSH_KEY: "极光 Key",
-  UMENG_KEY: "友盟 Key"
+  UMENG_KEY: "友盟 Key",
+  SHARETRACE_KEY: "ShareTrace Key",
+  SHAREINSTALL_KEY: "ShareInstall Key",
+  SHAREINSTALL_VALUE: "ShareInstall Value",
+  OPENINSTALL_KEY: "OpenInstall Key",
+  TINSTALL_KEY: "TInstall Key",
+  DEFAULT_CODE: "预设邀请吗",
+  FORCE_INVITE_CODE: "强制邀请码"
 })
 
 // 商戶資訊
@@ -103,4 +122,11 @@ export const merchant: Merchant = reactive<Merchant>({
     UMENG_KEY: "**",
     GATEWAY: ["http://**", "http://**", "http://**"]
   }
+})
+
+// 播放動畫狀態
+export const animate = reactive<PlayStatus>({
+  play: false,
+  pause: false,
+  timeScale: 1
 })

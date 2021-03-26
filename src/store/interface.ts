@@ -20,3 +20,9 @@ export interface MenuItem {
 	readonly desc: string
 	active: boolean
 }
+
+export interface PlayStatus {
+	play: boolean
+	pause: boolean
+	timeScale: number
+}

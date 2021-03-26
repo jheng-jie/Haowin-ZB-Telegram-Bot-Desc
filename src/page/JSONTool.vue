@@ -3,13 +3,13 @@
     <!--tool-->
     <div class="mb-3 bg-white rounded shadow-sm max-w-2xl mx-auto">
       <h1 class="py-3 font-bold text-2xl">生成 JSON 工具</h1>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
         <template v-for="(val, key) in params" :key="key">
-          <div class="text-right mb-2 pr-3 flex justify-end items-center">
+          <div class="mb-2 pr-3 flex justify-center sm:justify-end items-center">
             {{ val }}
           </div>
           <div class="mb-2 mr-2 text-left">
-            <input class="border rounded pl-2 py-1" type="text" v-model="result[key]" />
+            <input class="border rounded pl-2 py-1 w-full" type="text" v-model="result[key]" />
           </div>
         </template>
       </div>
@@ -30,8 +30,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, onMounted, onUnmounted, watch, ref } from "vue"
-import { params } from "/@/store/index"
-// import { ElNotification, ElMessageBox } from "element-plus/lib/el-message-box"
+import { params } from "/@/store"
 import ElMessageBox from "element-plus/lib/el-message-box"
 import ElNotification from "element-plus/lib/el-notification"
 import "element-plus/lib/theme-chalk/el-notification.css"

@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Home
   },
   {
-    path: "/ios-build",
+    path: "/build-ios",
     name: "IOS_BUILD",
     meta: {
       keepAlive: true,
@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./page/iOSBuild.vue")
   },
   {
-    path: "/android-build",
+    path: "/build-android",
     name: "ANDROID_BUILD",
     meta: {
       keepAlive: true,
@@ -33,13 +33,22 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./page/AndroidBuild.vue")
   },
   {
-    path: "/param",
+    path: "/set",
     name: "SET_PARAMS",
     meta: {
       keepAlive: true,
-      title: "Params Desc"
+      title: "Set Params Desc"
     },
-    component: () => import("./page/Param.vue")
+    component: () => import("./page/SetParam.vue")
+  },
+  {
+    path: "/ls",
+    name: "LIST",
+    meta: {
+      keepAlive: true,
+      title: "List"
+    },
+    component: () => import("./page/List.vue")
   },
   {
     path: "/json",

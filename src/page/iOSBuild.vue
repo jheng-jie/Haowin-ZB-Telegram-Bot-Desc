@@ -1,9 +1,7 @@
 <template>
   <div class="flex-1 p-2 sm:p-5 text-center overflow-y-auto box-border">
-    <!-- play btn -->
-    <PlayBar class="h-16" v-model:play="play" v-model:time-scale="timeScale" v-model:pause="pause" />
     <!-- telegram message box -->
-    <MessageBox :time-scale="timeScale" :play="play" :pause="pause" @complete="onComplete" :class="play ? 'full-height' : 'auto-height'">
+    <MessageBox :time-scale="timeScale" :play="play" :pause="pause" @complete="onComplete" :class="play ? 'h-full' : 'h-auto'">
       <MessageItem :self="true">
         <ScriptTag>/build</ScriptTag>
       </MessageItem>
@@ -13,7 +11,7 @@
           <div class="grid grid-cols-3 text-sm">
             <div :class="{ 'ml-1': index !== 0 }" class="text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2" v-for="(item, index) in Object.keys(merchant)">
               {{ item }}
-              <KeyboardTouch v-if="index === 0" />
+              <KeyboardTouch v-if="index === 0" data-delay="1000" />
             </div>
           </div>
         </template>
@@ -21,15 +19,19 @@
       <MessageItem data-keyboard-remove="1" data-keyboard-touch="1">
         <UserTag>{{ name.self }}</UserTag> 請選擇邀請碼類型
         <template v-slot:keyboard>
-          <div class="grid grid-cols-6 text-sm">
+          <div class="grid grid-cols-2 text-sm">
             <div class="col-span-2 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">
               固定邀請碼
-              <KeyboardTouch />
+              <KeyboardTouch data-delay="1000" />
             </div>
-            <div class="col-span-2 ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareInstall</div>
-            <div class="col-span-2 ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareTrace</div>
-            <div class="col-span-3 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">OpenInstall</div>
-            <div class="col-span-3 ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">TInstall</div>
+            <div class="text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareInstall 無預設邀請碼</div>
+            <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareInstall</div>
+            <div class="text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareTrace 無預設邀請碼</div>
+            <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">ShareTrace</div>
+            <div class="text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">OpenInstall 無預設邀請碼</div>
+            <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">OpenInstall</div>
+            <div class="text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">TInstall 無預設邀請碼</div>
+            <div class="ml-1 text-center cursor-pointer hover:bg-gray-300 truncate p-2 rounded bg-gray-200 mt-2">TInstall</div>
           </div>
         </template>
       </MessageItem>
@@ -42,7 +44,7 @@
       </MessageItem>
       <MessageItem data-remove-res="finish" data-delay="1500">
         <UserTag>{{ name.self }}</UserTag> 請確認資訊
-        <pre>{{ CheckResultMessage }}</pre>
+        <pre><code v-html="CheckResultMessage" /></pre>
       </MessageItem>
       <MessageItem data-remove-res="finish" data-keyboard-touch="1" data-delay="1500">
         <UserTag>{{ name.self }}</UserTag> 若確認無誤請選擇平台
@@ -52,14 +54,13 @@
             <div class="cursor-pointer hover:bg-gray-300 transition-all mr-1 truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">iOS <KeyboardTouch data-delay="1500" /></div>
             <div class="cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">AppStore</div>
             <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Android+iOS</div>
-            <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">Cancel</div>
+            <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">取消</div>
           </div>
         </template>
       </MessageItem>
       <MessageItem data-remove-key="finish">
-        🟢 操作成功，查看狀態請執行：<br />
+        <UserTag>{{ name.self }}</UserTag> 🟢 操作成功 <ScriptTag>build_lovezb_20210325_133937.txt</ScriptTag>，查看狀態請執行：<br />
         <ScriptTag>/queue_1000</ScriptTag> iOS 打包狀態 <br />
-        <MessageFile :filename="'*******.txt'" />
       </MessageItem>
     </MessageBox>
   </div>
@@ -68,20 +69,21 @@
 <script lang="ts">
 import { defineComponent, onDeactivated, reactive, toRefs } from "vue"
 import { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile } from "/@/component/Telegram/index"
-import { name, merchant } from "/@/store/index"
+import { name, merchant, animate } from "/@/store"
 
 const CheckResultMessage = [
   "------------------------",
-  "总代 ID:  lovezb",
-  "APP 名称:  **",
-  "Bundle ID:  **",
-  "美颜 Key:  **",
-  "腾讯云 Key:  **",
-  "腾讯云 LICENSE URL:  **",
-  "鉴权 Key:  **",
-  "极光 Key:  **",
-  "友盟 Key:  **",
-  "强制邀请码:  123456",
+  "总代 ID:  <b>lovezb</b>",
+  "APP 名称:  <b>**</b>",
+  "Bundle ID:  <b>**</b>",
+  "美颜 Key:  <b>**</b>",
+  "腾讯云 Key:  <b>**</b>",
+  "腾讯云 LICENSE URL:  <b>**</b>",
+  "鉴权 Key:  <b>**</b>",
+  "极光 Key:  <b>**</b>",
+  "友盟 Key:  <b>**</b>",
+  "强制邀请码:  <b>123456</b>",
+  "邀請碼數量:  <b>1</b>",
   "------------------------"
 ].join("\n")
 
@@ -89,13 +91,6 @@ export default defineComponent({
   components: { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile },
 
   setup() {
-    // state
-    const animate = reactive({
-      play: false,
-      pause: false,
-      timeScale: 1
-    })
-
     /**
      * @desc animate on complete
      */
@@ -103,7 +98,7 @@ export default defineComponent({
       animate.play = false
     }
 
-    onDeactivated(() => {
+    onDeactivated(function (): void {
       if (animate.play) animate.pause = true
     })
 
@@ -121,12 +116,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="less" scoped>
-.full-height {
-  height: calc(100% - theme("height.16"));
-}
-.auto-height {
-  height: auto;
-}
-</style>
