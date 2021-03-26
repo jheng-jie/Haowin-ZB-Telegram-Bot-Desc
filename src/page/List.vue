@@ -1,11 +1,69 @@
 <template>
   <div class="flex-1 p-2 sm:p-5 text-center overflow-y-auto box-border">
     <!--list-->
-    <div v-show="!play" class="mb-3">
-      <Button shadow="bg-blue-600" bg="bg-blue-500" class="mx-1 inline-block" :class="{ active: showType === ShowTypes.list }" @click="showType = ShowTypes.list">看列表</Button>
-      <Button shadow="bg-blue-600" bg="bg-blue-500" class="mx-1 inline-block" :class="{ active: showType === ShowTypes.delete }" @click="showType = ShowTypes.delete">刪除檔案</Button>
-      <Button shadow="bg-blue-600" bg="bg-blue-500" class="mx-1 inline-block" :class="{ active: showType === ShowTypes.folder }" @click="showType = ShowTypes.folder">刪除資料夾</Button>
+    <div v-show="!play" class="pt-3 sm:pt-0">
+      <Button shadow="bg-blue-600" bg="bg-blue-500" class="mb-3 mx-1 inline-block" :class="{ active: showType === ShowTypes.list }" @click="showType = ShowTypes.list">看列表</Button>
+      <Button shadow="bg-blue-600" bg="bg-blue-500" class="mb-3 mx-1 inline-block" :class="{ active: showType === ShowTypes.delete }" @click="showType = ShowTypes.delete">刪除檔案</Button>
+      <Button shadow="bg-blue-600" bg="bg-blue-500" class="mb-3 mx-1 inline-block" :class="{ active: showType === ShowTypes.folder }" @click="showType = ShowTypes.folder">刪除資料夾</Button>
+      <Button shadow="bg-blue-600" bg="bg-blue-500" class="mb-3 mx-1 inline-block" :class="{ active: showType === ShowTypes.filename }" @click="showType = ShowTypes.filename">刪除指定檔名</Button>
     </div>
+    <!--刪除指定檔名-->
+    <MessageBox v-show="showType === ShowTypes.filename" :time-scale="timeScale" :play="play" :pause="pause" @complete="onComplete" :class="play ? 'h-full' : 'h-auto'">
+      <MessageItem data-remove-res="remove" data-keyboard-touch="1">
+        <UserTag>{{ name.self }}</UserTag>
+        <pre><code v-html="ListBundleDir" /></pre>
+        <template v-slot:keyboard-parent>
+          <div class="grid grid-cols-2 text-sm">
+            <div class="cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">📁 quanqiu.gaowu</div>
+            <div class="ml-1 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">📁 oujin.jin</div>
+            <div class="cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">
+              🗑️ 删除
+              <KeyboardTouch data-delay="1000" />
+            </div>
+            <div class="ml-1 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">❌ 關閉</div>
+          </div>
+        </template>
+      </MessageItem>
+      <MessageItem data-keyboard-remove="1" data-keyboard-touch="1" data-delay="1000">
+        <UserTag>{{ name.self }}</UserTag
+        ><br />
+        🗑️ 請選擇刪除類型
+        <template v-slot:keyboard>
+          <div class="grid grid-cols-2 text-sm">
+            <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">🗑️全部刪除(📁📱)</div>
+            <div class="cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">🗑️ 刪除 📁 quanqiu.gaowu</div>
+            <div class="ml-1 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">🗑️ 刪除 📁 oujin.jin</div>
+            <div class="ml-1 col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">
+              🗑️ 刪除輸入的檔名
+              <KeyboardTouch data-delay="1000" />
+            </div>
+            <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">取消</div>
+          </div>
+        </template>
+      </MessageItem>
+      <MessageItem data-remove-res="input">
+        <UserTag>{{ name.self }}</UserTag> 🗑️ 請使用回覆此訊息的方式輸入檔名
+      </MessageItem>
+      <MessageItem :self="true" data-remove-key="input" data-delay="1000">
+        <MessageReply :name="name.bot"> {{ name.self }} 🗑️ 請使用回覆此訊息的方式輸入檔名 </MessageReply>
+        skyzhibo_2GOLGT_v1.19.0.apk
+      </MessageItem>
+      <MessageItem data-remove-res="confirm" data-keyboard-touch="1">
+        <UserTag>{{ name.self }}</UserTag
+        ><br />
+        🗑️ 二次確認，預計刪除 <ScriptTag>/apk/quanqiu.gaowu</ScriptTag> 內的<br />
+        📱 <ScriptTag>skyzhibo_2GOLGT_v1.19.0.apk</ScriptTag><br />共1個
+        <template v-slot:keyboard>
+          <div class="grid grid-cols-2 text-sm">
+            <div class="cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">確認 <KeyboardTouch data-delay="1000" /></div>
+            <div class="ml-1 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">取消</div>
+          </div>
+        </template>
+      </MessageItem>
+      <MessageItem data-remove-key="confirm">
+        <UserTag>{{ name.self }}</UserTag> 🟢 刪除成功 <ScriptTag>delete_skyzhibo_20210325_181211.txt</ScriptTag>，執行 <ScriptTag>/sync</ScriptTag> 同步
+      </MessageItem>
+    </MessageBox>
     <!--刪資料夾-->
     <MessageBox v-show="showType === ShowTypes.folder" :time-scale="timeScale" :play="play" :pause="pause" @complete="onComplete" :class="play ? 'h-full' : 'h-auto'">
       <MessageItem data-remove-res="remove" data-keyboard-touch="1">
@@ -35,6 +93,7 @@
               <KeyboardTouch data-delay="1000" />
             </div>
             <div class="ml-1 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">🗑️ 刪除 📁 oujin.jin</div>
+            <div class="ml-1 col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">🗑️ 刪除輸入的檔名</div>
             <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">取消</div>
           </div>
         </template>
@@ -98,6 +157,7 @@
               🗑️只刪除檔案(📱)
               <KeyboardTouch data-delay="1000" />
             </div>
+            <div class="ml-1 col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">🗑️ 刪除輸入的檔名</div>
             <div class="col-span-2 cursor-pointer hover:bg-gray-300 transition-all truncate flex-1 p-2 rounded bg-gray-200 mt-2 text-center">取消</div>
           </div>
         </template>
@@ -205,9 +265,9 @@ const ListRemoveResult: string = ["---《 數量: 0 位置: <b>/apk/quanqiu.gaow
 enum ShowTypes {
   list = 0x01,
   delete = 0x02,
-  folder = 0x03
+  folder = 0x03,
+  filename = 0x04
 }
-// H5-Jie 🟢 刪除成功 delete_saomaozb_20210325_133320.txt，執行 /sync 同步
 
 export default defineComponent({
   components: { MessageBox, MessageItem, KeyboardTouch, UserTag, ScriptTag, MessageReply, MessageFile },

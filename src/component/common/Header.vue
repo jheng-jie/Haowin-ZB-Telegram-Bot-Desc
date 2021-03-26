@@ -2,23 +2,24 @@
   <div>
     <div class="shadow-sm text-center">
       <h1 class="cursor-pointer pt-3 text-center text-3xl font-bold text-yellow-500" @click="$router.push('/')">Telegram Bot</h1>
-      <div class="relative top-2 flex-nowrap justify-center pt-4 overflow-x-auto sm:flex">
-        <Button shadow="bg-yellow-600" bg="bg-yellow-500" class="mx-1 inline-block" @click="showMenu = true"><i class="fas fa-bars" /></Button>
-        <!--play btn-->
-        <PlayBar v-show="$route.path !== '/'" class="mx-1 inline-block" v-model:play="play" v-model:time-scale="timeScale" v-model:pause="pause" />
+      <div class="relative top-2 flex-nowrap justify-center pt-4 overflow-x-auto flex">
+        <!--<Button shadow="bg-yellow-600" bg="bg-yellow-500" class="mx-1 inline-block" @click="showMenu = true"><i class="fas fa-bars" /></Button>-->
         <!--home-->
         <Button shadow="bg-yellow-600" bg="bg-yellow-500" class="mx-1 inline-block" @click="$router.push('/')" :class="{ active: $route.path === '/' }">
           <i class="fas fa-home mr-3" />Home
         </Button>
+        <!--play btn-->
+        <PlayBar v-show="$route.path !== '/'" class="mx-1 inline-block" v-model:play="play" v-model:time-scale="timeScale" v-model:pause="pause" />
+
       </div>
     </div>
-    <transition name="fade">
-      <div v-show="showMenu" class="fixed w-full h-full z-50 top-0 bottom-0 bg-yellow-100 flex flex-col items-center justify-center overflow-x-auto pt-5">
-        <Button shadow="bg-yellow-600" bg="bg-yellow-500" @click="() => onClick(btn) & (showMenu = false)" class="my-3 block" :class="{ active: btn.active }" v-for="(btn, index) in menu" :key="index">
-          {{ btn.name }}
-        </Button>
-      </div>
-    </transition>
+    <!--<transition name="fade">-->
+    <!--  <div v-show="showMenu" class="fixed w-full h-full z-50 top-0 bottom-0 bg-yellow-100 flex flex-col items-center justify-center overflow-x-auto pt-5">-->
+    <!--    <Button shadow="bg-yellow-600" bg="bg-yellow-500" @click="() => onClick(btn) & (showMenu = false)" class="my-3 block" :class="{ active: btn.active }" v-for="(btn, index) in menu" :key="index">-->
+    <!--      {{ btn.name }}-->
+    <!--    </Button>-->
+    <!--  </div>-->
+    <!--</transition>-->
   </div>
 </template>
 

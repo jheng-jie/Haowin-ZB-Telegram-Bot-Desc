@@ -43,7 +43,7 @@ export default defineComponent({
     // 待刪除 key
     dataRemoveRes: String,
     // 延遲
-    dataDelay: Number,
+    dataDelay: String,
   },
   setup() {
     return {

@@ -1,6 +1,6 @@
 <!--訊息的容器-->
 <template>
-  <div ref="parent" class="max-w-2xl w-full bg-white rounded sm:rounded-2xl p-2 sm:p-4 mx-auto box-border shadow-sm" :class="{ 'h-full overflow-y-auto': play }">
+  <div ref="parent" class="max-w-2xl w-full bg-white rounded sm:rounded-2xl p-2 sm:p-4 mx-auto box-border shadow-sm" :class="{ 'h-full overflow-y-auto pointer-events-none': play }">
     <!-- GSAP -->
     <component :is="item" v-for="(item, index) in list" :key="index" />
   </div>
@@ -136,7 +136,12 @@ export default defineComponent({
           remove.push(child)
         }
       }
-      TimeLine.to(remove, { opacity: 1, duration: 0.3, display: "", delay: 5, x: 0 })
+
+      if (remove.length > 0) {
+        TimeLine.to(remove, { opacity: 1, duration: 0.3, display: "", delay: 5, x: 0 })
+      } else {
+        TimeLine.to({ v: 0 }, { v: 1, delay: 5 })
+      }
 
       if (props.play) {
         TimeLine.play()

@@ -51,6 +51,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./page/List.vue")
   },
   {
+    path: "/queue",
+    name: "QUEUE",
+    meta: {
+      keepAlive: true,
+      title: "Queue"
+    },
+    component: () => import("./page/Queue.vue")
+  },
+  {
     path: "/json",
     name: "JSON_TOOL",
     meta: {
