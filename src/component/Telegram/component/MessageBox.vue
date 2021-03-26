@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, onMounted, reactive, ref, onUnmounted, watchEffect, VNode } from "vue"
+import { defineComponent, onBeforeMount, onMounted, reactive, ref, onUnmounted, watchEffect, VNode, onActivated, onDeactivated } from "vue"
 import gsap from "gsap"
 import throttle from "lodash-es/throttle"
 // @ts-ignore
@@ -21,6 +21,9 @@ export default defineComponent({
   },
   setup(props, { slots, emit }) {
     gsap.registerPlugin(CSSPlugin)
+
+    // active
+    const active = ref<boolean>(true)
 
     // slot container
     const list = reactive<Array<VNode>>([])
@@ -50,6 +53,20 @@ export default defineComponent({
       onStart: () => emit("start")
     })
 
+    // activated
+    onActivated(() => {
+      active.value = true
+      if (props.play) {
+        TimeLine.play(0)
+      }
+    })
+
+    // de activate
+    onDeactivated(() => {
+      active.value = false
+      TimeLine.pause()
+    })
+
     /**
      * @desc get all child
      */
@@ -64,6 +81,7 @@ export default defineComponent({
      * @desc on play
      */
     watchEffect(() => {
+      if (!active.value) return
       const { play } = props
       TimeLine.progress(!play ? 1 : 0)
       if (play) TimeLine.play()
@@ -74,6 +92,7 @@ export default defineComponent({
      * @desc on pause
      */
     watchEffect(() => {
+      if (!active.value) return
       const { pause } = props
       if (!pause) TimeLine.play()
       else TimeLine.pause()
