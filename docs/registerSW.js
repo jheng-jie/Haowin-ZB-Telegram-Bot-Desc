@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/vite-tg-build-bot/sw.js', { scope: '/vite-tg-build-bot/' })})}
